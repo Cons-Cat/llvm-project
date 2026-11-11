@@ -50,7 +50,7 @@ podman run --rm -v "${src}:/src:ro,z" -v "${build}:/build:z" -w /build "${image}
 "
 
 tar -C "${build}" -cf - "${name}" | zstd -T0 -19 -o "${build}/${name}.tar.zst" -f
-sha256sum "${build}/${name}.tar.zst" | tee "${build}/${name}.tar.zst.sha256"
+(cd "${build}" && sha256sum "${name}.tar.zst") | tee "${build}/${name}.tar.zst.sha256"
 
 if [[ "${1:-}" == --publish ]]; then
   git -C "${src}" push origin "HEAD:refs/heads/lilian"
